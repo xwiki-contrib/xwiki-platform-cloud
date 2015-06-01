@@ -30,7 +30,7 @@ import org.xwiki.store.TransactionRunnable;
 
 /**
  * The transaction runnable for deleting all attachment data on the blobstore.
- * 
+ *
  * @version $Id$
  */
 public class DeleteAttachmentDataTransactionRunnable extends TransactionRunnable<XWikiHibernateTransaction>
@@ -73,6 +73,16 @@ public class DeleteAttachmentDataTransactionRunnable extends TransactionRunnable
         BlobStore blobStore = blobStoreProvider.get();
 
         blobStore.deleteBlob(path);       
+    }
+
+    @Override
+    protected void onRollback() throws Exception {
+        logger.warn("Rollback occurred while deleting an attachment, the file store may be inconsistent with the database");
+    }
+
+    @Override
+    protected void onCommit() throws Exception {
+        logger.info("Commit occurred while deleting an attachment");
     }
 
 }
