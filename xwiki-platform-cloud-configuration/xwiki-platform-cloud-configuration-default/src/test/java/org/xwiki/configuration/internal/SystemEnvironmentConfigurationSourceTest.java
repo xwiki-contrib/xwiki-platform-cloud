@@ -19,31 +19,36 @@
  */
 package org.xwiki.configuration.internal;
 
+import org.xwiki.configuration.ConfigurationSource;
+import org.xwiki.test.mockito.MockitoComponentMockingRule;
+
 import java.util.Map;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
-import org.xwiki.configuration.ConfigurationSource;
-import org.xwiki.test.AbstractComponentTestCase;
 
 /**
  * Unit tests for {@link SystemEnvironmentConfigurationSource}.
- * 
+ *
  * @version $Id$
  */
-public class SystemEnvironmentConfigurationSourceTest extends AbstractComponentTestCase
+public class SystemEnvironmentConfigurationSourceTest
 {
+    @Rule
+    public MockitoComponentMockingRule<ConfigurationSource> mocker =
+        new MockitoComponentMockingRule<ConfigurationSource>(SystemEnvironmentConfigurationSource.class);
+
     /**
      * Check that all System environment properties are correctly accessible through the configuration source.
-     * 
+     *
      * @throws Exception If the configuration source cannot be looked up.
      */
     @Test
     public void testGetSystemEnvironmentProperties() throws Exception
     {
-        ConfigurationSource source = getComponentManager().lookup(ConfigurationSource.class, "system-environment");
-        
+        ConfigurationSource source = this.mocker.getComponentUnderTest();
+
         Map<String, String> environment = System.getenv();
         for (String key : environment.keySet()) {
             Assert.assertEquals(environment.get(key), source.getProperty(key));

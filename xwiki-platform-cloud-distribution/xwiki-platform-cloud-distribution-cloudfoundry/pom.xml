@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>xwiki-platform-cloud-distribution</artifactId>
-    <version>4.0</version>
+    <version>7.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-cloud-distribution-cloudfoundry</artifactId>
   <packaging>war</packaging>

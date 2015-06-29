@@ -47,21 +47,21 @@ public final class Utils
      */
     public static String generatePath(EntityReference entityReference)
     {
-        Formatter f = new Formatter();
+        try (Formatter f = new Formatter()) {
+            List<EntityReference> reversedReferenceChain = entityReference.getReversedReferenceChain();
 
-        List<EntityReference> reversedReferenceChain = entityReference.getReversedReferenceChain();
+            int i = 0;
+            for (EntityReference reference : reversedReferenceChain) {
+                if (i < (reversedReferenceChain.size()) - 1) {
+                    f.format("%s/", reference.getName());
+                } else {
+                    f.format("%s", reference.getName());
+                }
 
-        int i = 0;
-        for (EntityReference reference : reversedReferenceChain) {
-            if (i < (reversedReferenceChain.size()) - 1) {
-                f.format("%s/", reference.getName());
-            } else {
-                f.format("%s", reference.getName());
+                i++;
             }
 
-            i++;
+            return f.toString();
         }
-
-        return f.toString();
     }
 }

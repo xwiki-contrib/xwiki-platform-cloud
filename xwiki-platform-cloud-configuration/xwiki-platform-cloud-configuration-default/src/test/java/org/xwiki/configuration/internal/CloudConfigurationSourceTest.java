@@ -19,29 +19,31 @@
  */
 package org.xwiki.configuration.internal;
 
-import java.io.ByteArrayInputStream;
-import java.util.Map;
-import java.util.Properties;
-
-import junit.framework.Assert;
-
-import org.apache.commons.configuration.BaseConfiguration;
-import org.jmock.Expectations;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.xwiki.component.util.ReflectionUtils;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.environment.Environment;
-import org.xwiki.properties.ConverterManager;
-import org.xwiki.test.AbstractComponentTestCase;
+import org.xwiki.test.mockito.MockitoComponentMockingRule;
+
+import java.io.ByteArrayInputStream;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for {@link SystemEnvironmentConfigurationSource}.
- * 
+ *
  * @version $Id$
  */
-public class CloudConfigurationSourceTest extends AbstractComponentTestCase
+public class CloudConfigurationSourceTest
 {
+    @Rule
+    public MockitoComponentMockingRule<ConfigurationSource> mocker =
+        new MockitoComponentMockingRule<ConfigurationSource>(CloudConfigurationSource.class);
+
     /**
      * The remapping file.
      */
@@ -58,99 +60,52 @@ public class CloudConfigurationSourceTest extends AbstractComponentTestCase
     private static final String BAR = "bar";
 
     /**
-     * The cloud configuration source to be used in tests.
-     */
-    private CloudConfigurationSource source;
-
-    /**
-     * The configuration used to inject items into the configuration source.
-     */
-    private BaseConfiguration configuration;
-
-    /**
      * The environment injected in the configuration source.
      */
     private Environment environment;
 
     /**
      * Setup the cloud configuration source for tests.
-     * 
+     *
      * @throws Exception If the cloud configuration source cannot be looked up.
      */
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
-        final ConverterManager converterManager = getComponentManager().lookup(ConverterManager.class);
-        environment = getMockery().mock(Environment.class);
+        this.environment = this.mocker.getInstance(Environment.class);
 
         /* Build a fake remapping file containing a remap entry */
         final ByteArrayInputStream remappingFileContent =
             new ByteArrayInputStream(String.format("remap.%s=%s", FOO, BAR).getBytes());
-        getMockery().checking(new Expectations()
-        {
-            {
-                allowing(environment).getResourceAsStream(REMAPPING_FILE);
-                will(returnValue(remappingFileContent));
-            }
-        });
-
-        final Logger logger = getMockery().mock(Logger.class);
-
-        CommonsConfigurationSource dummySource = new CommonsConfigurationSource();
-        ReflectionUtils.setFieldValue(dummySource, "converterManager", converterManager);
-        configuration = new BaseConfiguration();
-        dummySource.setConfiguration(configuration);
-
-        SystemPropertiesConfigurationSource systemPropertiesConfigurationSource =
-            new SystemPropertiesConfigurationSource();
-        systemPropertiesConfigurationSource.initialize();
-
-        SystemEnvironmentConfigurationSource systemEnvironmentConfigurationSource =
-            new SystemEnvironmentConfigurationSource();
-        systemEnvironmentConfigurationSource.initialize();
-
-        source = new CloudConfigurationSource();
-        ReflectionUtils.setFieldValue(source, "environment", environment);
-        ReflectionUtils.setFieldValue(source, "logger", logger);
-        ReflectionUtils.setFieldValue(source, "xwikiPropertiesSource", dummySource);
-        ReflectionUtils.setFieldValue(source, "wikiPreferencesSource", dummySource);
-        ReflectionUtils.setFieldValue(source, "spacePreferencesSource", dummySource);
-        ReflectionUtils.setFieldValue(source, "systemPropertiesConfigurationSource",
-            systemPropertiesConfigurationSource);
-        ReflectionUtils.setFieldValue(source, "systemEnvironmentConfigurationSource",
-            systemEnvironmentConfigurationSource);
-
-        source.initialize();
+        when(this.environment.getResourceAsStream(REMAPPING_FILE)).thenReturn(remappingFileContent);
     }
 
     /**
      * Check that all System environment properties are correctly accessible through the configuration source.
-     * 
+     *
      * @throws Exception If the configuration source cannot be looked up.
      */
     @Test
     public void testGetSystemEnvironmentProperties() throws Exception
     {
-        Map<String, String> systemEnvironment = System.getenv();
-        for (String key : systemEnvironment.keySet()) {
-            Assert.assertEquals(systemEnvironment.get(key), source.getProperty(key));
-        }
+        ConfigurationSource system = this.mocker.getInstance(ConfigurationSource.class, "system-environment");
+        when(system.containsKey("sysenvprop")).thenReturn(true);
+        when(system.getProperty("sysenvprop")).thenReturn("sysvalue");
+        Assert.assertEquals("sysvalue", this.mocker.getComponentUnderTest().getProperty("sysenvprop"));
     }
 
     /**
      * Check that all System properties are correctly accessible through the configuration source.
-     * 
+     *
      * @throws Exception If the configuration source cannot be looked up.
      */
     @Test
     public void testGetSystemProperties() throws Exception
     {
-        Properties properties = System.getProperties();
-        for (String key : properties.stringPropertyNames()) {
-            Assert.assertEquals(properties.get(key), source.getProperty(key));
-        }
+        ConfigurationSource system = this.mocker.getInstance(ConfigurationSource.class, "system-properties");
+        when(system.containsKey("sysprop")).thenReturn(true);
+        when(system.getProperty("sysprop")).thenReturn("sysvalue");
+        Assert.assertEquals("sysvalue", this.mocker.getComponentUnderTest().getProperty("sysprop"));
     }
 
     /**
@@ -158,11 +113,14 @@ public class CloudConfigurationSourceTest extends AbstractComponentTestCase
      * account.
      */
     @Test
-    public void testRemapping()
+    public void testRemapping() throws ComponentLookupException
     {
-        configuration.setProperty(FOO, FOO);
-        configuration.setProperty(BAR, BAR);
+        ConfigurationSource system = this.mocker.getInstance(ConfigurationSource.class, "system-properties");
+        when(system.containsKey(FOO)).thenReturn(true);
+        when(system.getProperty(FOO)).thenReturn(FOO);
+        when(system.containsKey(BAR)).thenReturn(true);
+        when(system.getProperty(BAR)).thenReturn(BAR);
 
-        Assert.assertEquals(BAR, source.getProperty(FOO));
+        Assert.assertEquals(BAR, this.mocker.getComponentUnderTest().getProperty(FOO));
     }
 }
