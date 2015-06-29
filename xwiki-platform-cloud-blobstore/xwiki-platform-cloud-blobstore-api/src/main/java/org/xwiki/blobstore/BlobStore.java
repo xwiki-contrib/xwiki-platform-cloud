@@ -25,7 +25,7 @@ import org.xwiki.component.annotation.Role;
 
 /**
  * An interface containing relevant operations we want to perform on S3.
- * 
+ *
  * @version $Id$
  */
 @Role
@@ -58,7 +58,7 @@ public interface BlobStore
 
     /**
      * Store a blob.
-     * 
+     *
      * @param key The key to be used for storing the blog.
      * @param content The input stream from which reading the data to be stored. This method could buffer the content
      *            entirely in memory before storing it. If you know the data length you might be willing to use
@@ -68,7 +68,7 @@ public interface BlobStore
 
     /**
      * Store a blob.
-     * 
+     *
      * @param path The path to be used for storing the blog.
      * @param content The inputstream from which reading the data to be stored.
      * @param length The content length
@@ -77,7 +77,7 @@ public interface BlobStore
 
     /**
      * Return a stream for reading the blob content.
-     * 
+     *
      * @param path The path for retrieving the blob.
      * @return An input stream for reading blob data.
      */
@@ -85,7 +85,7 @@ public interface BlobStore
 
     /**
      * Remove a blob from the blob store.
-     * 
+     *
      * @param path The path to the blob to be removed.
      */
     void deleteBlob(String path);

@@ -40,7 +40,7 @@ import com.amazonaws.services.s3.model.S3Object;
 /**
  * Amazon S3 blob store implementation. This is a singleton in order to reuse as much as possible the Amazon S3 client
  * object (https://forums.aws.amazon.com/thread.jspa?threadID=50723)
- * 
+ *
  * @version $Id$
  */
 @Component
@@ -82,35 +82,37 @@ public class S3BlobStore implements BlobStore, Initializable
     {
         final String formatString = "%s property is not defined.";
 
-        logger.error("Using {}", configurationSource.getClass().getName());
+        this.logger.error("Using {}", this.configurationSource.getClass().getName());
 
-        bucket = configurationSource.getProperty(BlobStore.BLOBSTORE_BUCKET_PROPERTY);
-        if (bucket == null) {
+        this.bucket = this.configurationSource.getProperty(BlobStore.BLOBSTORE_BUCKET_PROPERTY);
+        if (this.bucket == null) {
             throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_BUCKET_PROPERTY));
         }
 
-        String accessKey = configurationSource.getProperty(BlobStore.BLOBSTORE_IDENTITY_PROPERTY);
+        String accessKey = this.configurationSource.getProperty(BlobStore.BLOBSTORE_IDENTITY_PROPERTY);
         if (accessKey == null) {
             throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_IDENTITY_PROPERTY));
         }
 
-        String secretKey = configurationSource.getProperty(BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY);
+        String secretKey = this.configurationSource.getProperty(BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY);
         if (secretKey == null) {
             throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY));
         }
 
         BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-        client = new AmazonS3Client(credentials);
-        boolean bucketExists = client.doesBucketExist(bucket);
+        this.client = new AmazonS3Client(credentials);
+        boolean bucketExists = this.client.doesBucketExist(this.bucket);
         if (!bucketExists) {
-            client.createBucket(bucket);
+            this.client.createBucket(this.bucket);
         }
 
-        namespace = configurationSource.getProperty(BlobStore.BLOBSTORE_NAMESPACE_PROPERTY);
+        this.namespace = this.configurationSource.getProperty(BlobStore.BLOBSTORE_NAMESPACE_PROPERTY);
 
-        logger.debug("S3 blob store initialized using namespace '{}' and bucket '{}'", namespace != null ? namespace
-            : "no namespace specified", bucket);
+        this.logger.debug("S3 blob store initialized using namespace '{}' and bucket '{}'",
+            this.namespace != null ? this.namespace
+                : "no namespace specified",
+            this.bucket);
     }
 
     @Override
@@ -118,9 +120,9 @@ public class S3BlobStore implements BlobStore, Initializable
     {
         String normalizedPath = normalizePath(path);
 
-        logger.debug("Deleting blob '{}' from bucket '{}'", normalizedPath, bucket);
+        this.logger.debug("Deleting blob '{}' from bucket '{}'", normalizedPath, this.bucket);
 
-        client.deleteObject(bucket, normalizedPath);
+        this.client.deleteObject(this.bucket, normalizedPath);
     }
 
     @Override
@@ -128,9 +130,9 @@ public class S3BlobStore implements BlobStore, Initializable
     {
         String normalizedPath = normalizePath(path);
 
-        logger.debug("Getting blob '{}' from bucket '{}'", normalizedPath, bucket);
+        this.logger.debug("Getting blob '{}' from bucket '{}'", normalizedPath, this.bucket);
 
-        S3Object object = client.getObject(bucket, normalizedPath);
+        S3Object object = this.client.getObject(this.bucket, normalizedPath);
         if (object != null) {
             return object.getObjectContent();
         }
@@ -149,26 +151,26 @@ public class S3BlobStore implements BlobStore, Initializable
     {
         String normalizedPath = normalizePath(path);
 
-        logger.debug("Putting blob to '{}'", normalizedPath);
+        this.logger.debug("Putting blob to '{}'", normalizedPath);
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         if (length > 0) {
             objectMetadata.setContentLength(length);
         }
 
-        client.putObject(bucket, normalizedPath, content, objectMetadata);
+        this.client.putObject(this.bucket, normalizedPath, content, objectMetadata);
     }
 
     /**
      * Return the actual path for retrieving the blob by taking into account the namespace.
-     * 
+     *
      * @param path The path provided by the user.
      * @return The actual path that takes into account the namespace, if provided in the configuration.
      */
     private String normalizePath(String path)
     {
-        if (namespace != null) {
-            return String.format("%s/%s", namespace, path);
+        if (this.namespace != null) {
+            return String.format("%s/%s", this.namespace, path);
         }
 
         return path;

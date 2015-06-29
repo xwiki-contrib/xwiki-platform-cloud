@@ -38,7 +38,7 @@ import org.xwiki.environment.Environment;
  * configuration keys. For example, if a remap.KEY1=KEY1 is defined somewhere, then the value for KEY1 is taken from the
  * value of KEY2. This is useful in cloud environments where several parameters are passed at runtime through
  * environment variables with different names depending on the cloud provider.
- * 
+ *
  * @version $Id$
  */
 @Component
@@ -88,9 +88,9 @@ public class CloudConfigurationSource extends CompositeConfigurationSource imple
     @Override
     public void initialize() throws InitializationException
     {
-        addConfigurationSource(systemPropertiesConfigurationSource);
-        addConfigurationSource(systemEnvironmentConfigurationSource);
-        addConfigurationSource(xwikiPropertiesSource);
+        addConfigurationSource(this.systemPropertiesConfigurationSource);
+        addConfigurationSource(this.systemEnvironmentConfigurationSource);
+        addConfigurationSource(this.xwikiPropertiesSource);
 
         try {
             ConfigurationSource remappings = loadRemappings();
@@ -104,13 +104,13 @@ public class CloudConfigurationSource extends CompositeConfigurationSource imple
 
     /**
      * Load remapping definitions from the remapping file and provide them as a configuration source.
-     * 
+     *
      * @return A configuration source containing the remappings. null if the file is not present.
      * @throws Exception if there is an error loading the file.
      */
     private ConfigurationSource loadRemappings() throws Exception
     {
-        InputStream is = environment.getResourceAsStream(REMAPPING_FILE);
+        InputStream is = this.environment.getResourceAsStream(REMAPPING_FILE);
         if (is == null) {
             return null;
         }
@@ -189,7 +189,7 @@ public class CloudConfigurationSource extends CompositeConfigurationSource imple
 
     /**
      * Get the remapping for the key.
-     * 
+     *
      * @param key The key we are looking a remapping for.
      * @return The remapped key.
      */

@@ -19,21 +19,22 @@
  */
 package org.xwiki.blobstore.attachments.legacy.internal.transactions;
 
-import com.xpn.xwiki.store.XWikiHibernateBaseStore;
-import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.XWikiException;
 import org.xwiki.store.RootTransactionRunnable;
 
+import com.xpn.xwiki.XWikiContext;
+import com.xpn.xwiki.XWikiException;
+import com.xpn.xwiki.store.XWikiHibernateBaseStore;
+
 /*
- * NOTE: This has been copied from xwiki-platform-store-filesystem-attachments in order not to have a 
- * dependency to this module for just a single class. Ideally this class should be eventually moved 
- * somewhere else (e.g., the xwiki-platform-store-transaction-hibernate?) 
+ * NOTE: This has been copied from xwiki-platform-store-filesystem-attachments in order not to have a
+ * dependency to this module for just a single class. Ideally this class should be eventually moved
+ * somewhere else (e.g., the xwiki-platform-store-transaction-hibernate?)
  */
 
 /**
  * A Transaction based on XWikiHibernateStore. SQL based TransactionRunnables MUST extend RootTransactionRunnable
  * because SQL storage engines are incapable of rolling back after commit.
- * 
+ *
  * @version $Id$
  * @since 3.0M2
  */
@@ -57,7 +58,7 @@ public class XWikiHibernateTransaction extends RootTransactionRunnable
 
     /**
      * The Constructor.
-     * 
+     *
      * @param context the XWikiContext associated with the request which started this Transaction.
      */
     public XWikiHibernateTransaction(final XWikiContext context)

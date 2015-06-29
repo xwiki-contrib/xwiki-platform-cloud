@@ -74,31 +74,32 @@ public class DefaultHibernateConfiguratorProvider implements Provider<HibernateC
     @Override
     public void initialize() throws InitializationException
     {
-        String hibernateConfiguratorHint = configurationSource.getProperty(HIBERNATE_CONFIGURATOR_PROPERTY);
+        String hibernateConfiguratorHint = this.configurationSource.getProperty(HIBERNATE_CONFIGURATOR_PROPERTY);
         if (hibernateConfiguratorHint == null) {
             throw new InitializationException(String.format(
-                    "You must specify the '%s' in your xwiki.properties file for selecting a hibernate configurator.",
-                    HIBERNATE_CONFIGURATOR_PROPERTY));
+                "You must specify the '%s' in your xwiki.properties file for selecting a hibernate configurator.",
+                HIBERNATE_CONFIGURATOR_PROPERTY));
         }
 
         try {
-            hibernateConfigurator =
-                    componentManager.getInstance(HibernateConfigurator.class, hibernateConfiguratorHint);
+            this.hibernateConfigurator =
+                this.componentManager.getInstance(HibernateConfigurator.class, hibernateConfiguratorHint);
         } catch (ComponentLookupException e) {
             String errorMessage =
-                    String.format("Unable to lookup a Hibernate configurator '%s'", hibernateConfiguratorHint);
+                String.format("Unable to lookup a Hibernate configurator '%s'", hibernateConfiguratorHint);
 
-            logger.error(errorMessage);
+            this.logger.error(errorMessage);
 
             throw new InitializationException(errorMessage, e);
         }
 
-        logger.debug("Hibernate configurator provider initialized with configurator '{}'", hibernateConfiguratorHint);
+        this.logger.debug("Hibernate configurator provider initialized with configurator '{}'",
+            hibernateConfiguratorHint);
     }
 
     @Override
     public HibernateConfigurator get()
     {
-        return hibernateConfigurator;
+        return this.hibernateConfigurator;
     }
 }

@@ -39,7 +39,7 @@ import com.xpn.xwiki.store.AttachmentRecycleBinStore;
 
 /**
  * The recycle store for cloud attachments.
- * 
+ *
  * @version $Id$
  */
 @Component
@@ -56,32 +56,32 @@ public class BlobStoreAttachmentRecycleBinStore implements AttachmentRecycleBinS
     @Override
     public void deleteFromRecycleBin(long index, XWikiContext xwikiContext, boolean transaction) throws XWikiException
     {
-        logger.debug("deleteFromRecycleBin()");
+        this.logger.debug("deleteFromRecycleBin()");
     }
 
     @Override
     public List<DeletedAttachment> getAllDeletedAttachments(XWikiAttachment xwikiAttachment, XWikiContext xwikiContext,
         boolean transaction) throws XWikiException
     {
-        logger.debug("getAllDeletedAttachments(...)");
+        this.logger.debug("getAllDeletedAttachments(...)");
 
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override
     public List<DeletedAttachment> getAllDeletedAttachments(XWikiDocument xwikiDocument, XWikiContext xwikiContext,
         boolean transaction) throws XWikiException
     {
-        logger.debug("getAllDeletedAttachments()");
+        this.logger.debug("getAllDeletedAttachments()");
 
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     @Override
     public DeletedAttachment getDeletedAttachment(long index, XWikiContext xwikiContext, boolean transaction)
         throws XWikiException
     {
-        logger.debug("getDeletedAttachment()");
+        this.logger.debug("getDeletedAttachment()");
 
         return null;
     }
@@ -90,7 +90,7 @@ public class BlobStoreAttachmentRecycleBinStore implements AttachmentRecycleBinS
     public XWikiAttachment restoreFromRecycleBin(XWikiAttachment xwikiAttachment, long index,
         XWikiContext xwikiContext, boolean transaction) throws XWikiException
     {
-        logger.debug("restoreFromRecycleBin()");
+        this.logger.debug("restoreFromRecycleBin()");
 
         return null;
     }
@@ -99,7 +99,7 @@ public class BlobStoreAttachmentRecycleBinStore implements AttachmentRecycleBinS
     public void saveToRecycleBin(XWikiAttachment arg0, String arg1, Date arg2, XWikiContext arg3, boolean arg4)
         throws XWikiException
     {
-        logger.debug("saveToRecycleBin()");
+        this.logger.debug("saveToRecycleBin()");
     }
 
 }

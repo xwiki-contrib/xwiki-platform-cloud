@@ -52,7 +52,7 @@ public class DeleteAttachmentDataTransactionRunnable extends TransactionRunnable
 
     /**
      * Constructor.
-     * 
+     *
      * @param attachmentReference The reference for the attachment.
      * @param blobStoreProvider The blob store provider.
      */
@@ -66,24 +66,26 @@ public class DeleteAttachmentDataTransactionRunnable extends TransactionRunnable
     @Override
     protected void onRun() throws Exception
     {
-        String path = Utils.generatePath(attachmentReference);
+        String path = Utils.generatePath(this.attachmentReference);
 
-        logger.debug("Deleting blob {}", path);
+        this.logger.debug("Deleting blob {}", path);
 
-        BlobStore blobStore = blobStoreProvider.get();
+        BlobStore blobStore = this.blobStoreProvider.get();
 
-        blobStore.deleteBlob(path);       
+        blobStore.deleteBlob(path);
     }
 
     @Override
-    protected void onRollback() throws Exception {
-        logger.warn("Rollback occurred while deleting an attachment, "
+    protected void onRollback() throws Exception
+    {
+        this.logger.warn("Rollback occurred while deleting an attachment, "
             + "the file store may be inconsistent with the database");
     }
 
     @Override
-    protected void onCommit() throws Exception {
-        logger.info("Commit occurred while deleting an attachment");
+    protected void onCommit() throws Exception
+    {
+        this.logger.info("Commit occurred while deleting an attachment");
     }
 
 }

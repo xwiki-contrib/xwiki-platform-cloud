@@ -30,14 +30,14 @@ import com.xpn.xwiki.doc.XWikiAttachment;
 /**
  * The transaction runnable for deleting an attachment. This is basically a transaction that contains the one for
  * removing the metadata and, then, the actual blob on the blobstore.
- * 
+ *
  * @version $Id$
  */
 public class DeleteAttachmentTransactionRunnable extends TransactionRunnable<XWikiHibernateTransaction>
 {
     /**
      * Constructor.
-     * 
+     *
      * @param blobStoreProvider The blob store provider.
      * @param xwikiAttachment The XWiki attachment.
      * @param xwikiContext The XWiki context.

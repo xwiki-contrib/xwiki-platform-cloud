@@ -40,7 +40,7 @@ import org.xwiki.environment.Environment;
 
 /**
  * Hibernate configurator that takes configuration values in hibernate.cfg.xml from the environment.
- * 
+ *
  * @version $Id$
  */
 @Component
@@ -85,7 +85,7 @@ public class EnvironmentHibernateConfigurator implements HibernateConfigurator, 
     @Override
     public void initialize() throws InitializationException
     {
-        InputStream is = environment.getResourceAsStream(HIBERNATE_CONFIGURATION_FILE);
+        InputStream is = this.environment.getResourceAsStream(HIBERNATE_CONFIGURATION_FILE);
         if (is == null) {
             throw new InitializationException(String.format("No hibernate configuration file '%s' ",
                 HIBERNATE_CONFIGURATION_FILE));
@@ -95,9 +95,9 @@ public class EnvironmentHibernateConfigurator implements HibernateConfigurator, 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder loader = factory.newDocumentBuilder();
 
-            configurationDocument = loader.parse(is);
+            this.configurationDocument = loader.parse(is);
 
-            configureHibernateProperties(configurationDocument.getDocumentElement());
+            configureHibernateProperties(this.configurationDocument.getDocumentElement());
         } catch (Exception e) {
             throw new InitializationException("Error building Hibernate configuration", e);
         }
@@ -106,7 +106,7 @@ public class EnvironmentHibernateConfigurator implements HibernateConfigurator, 
 
     /**
      * Do a depth first visit of the XML and override all the &lt;property&gt; values to that passed as an argument.
-     * 
+     *
      * @param node The node where to start the visit.
      */
     private void configureHibernateProperties(Node node)
@@ -116,9 +116,10 @@ public class EnvironmentHibernateConfigurator implements HibernateConfigurator, 
             if (nameAttribute != null) {
                 String propertyName = nameAttribute.getTextContent();
                 String overrideValue =
-                    configurationSource.getProperty(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, propertyName));
+                    this.configurationSource
+                        .getProperty(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, propertyName));
                 if (overrideValue != null) {
-                    logger.debug("Setting property '{}' to '{}'", propertyName, overrideValue);
+                    this.logger.debug("Setting property '{}' to '{}'", propertyName, overrideValue);
                     node.setTextContent(overrideValue);
                 }
             }
@@ -133,7 +134,7 @@ public class EnvironmentHibernateConfigurator implements HibernateConfigurator, 
     @Override
     public Document getConfiguration()
     {
-        return configurationDocument;
+        return this.configurationDocument;
     }
 
 }

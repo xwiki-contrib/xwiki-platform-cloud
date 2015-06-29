@@ -24,7 +24,7 @@ import org.xwiki.component.annotation.Role;
 
 /**
  * Provide a configuration to be used to initialize Hibernate dynamically.
- * 
+ *
  * @version $Id$
  */
 @Role

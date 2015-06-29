@@ -90,26 +90,26 @@ public class CloudFoundryHibernateConfigurator implements HibernateConfigurator,
     @Override
     public void initialize() throws InitializationException
     {
-        InputStream is = environment.getResourceAsStream(HIBERNATE_CONFIGURATION_FILE);
+        InputStream is = this.environment.getResourceAsStream(HIBERNATE_CONFIGURATION_FILE);
         if (is == null) {
             throw new InitializationException(String.format("No hibernate configuration file '%s' ",
-                    HIBERNATE_CONFIGURATION_FILE));
+                HIBERNATE_CONFIGURATION_FILE));
         }
 
         Map<String, String> properties = getHibernatePropertiesFromEnv();
         if (properties.get(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, "connection.url")) == null) {
-            logger.warn("No CloudFoundry database configuration found. Using default");
+            this.logger.warn("No CloudFoundry database configuration found. Using default");
         } else {
-            logger.info("CloudFoundry database configuration: %s\n", properties);
+            this.logger.info("CloudFoundry database configuration: %s\n", properties);
         }
 
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder loader = factory.newDocumentBuilder();
 
-            configurationDocument = loader.parse(is);
+            this.configurationDocument = loader.parse(is);
 
-            configureHibernateProperties(properties, configurationDocument.getDocumentElement());
+            configureHibernateProperties(properties, this.configurationDocument.getDocumentElement());
         } catch (Exception e) {
             throw new InitializationException("Error building Hibernate configuration", e);
         }
@@ -127,9 +127,9 @@ public class CloudFoundryHibernateConfigurator implements HibernateConfigurator,
             if (nameAttribute != null) {
                 String propertyName = nameAttribute.getTextContent();
                 String overrideValue =
-                        properties.get(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, propertyName));
+                    properties.get(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, propertyName));
                 if (overrideValue != null) {
-                    logger.debug("Setting property '{}' to '{}'", propertyName, overrideValue);
+                    this.logger.debug("Setting property '{}' to '{}'", propertyName, overrideValue);
                     node.setTextContent(overrideValue);
                 }
             }
@@ -144,7 +144,7 @@ public class CloudFoundryHibernateConfigurator implements HibernateConfigurator,
     @Override
     public Document getConfiguration()
     {
-        return configurationDocument;
+        return this.configurationDocument;
     }
 
     /**
@@ -187,9 +187,9 @@ public class CloudFoundryHibernateConfigurator implements HibernateConfigurator,
                     }
 
                     jdbcString = String.format(
-                            "jdbc:mysql://%s:%s/%s?useServerPrepStmts=false&amp;useUnicode=true&amp;"
-                                    + "characterEncoding=UTF-8",
-                            host, port, dbName);
+                        "jdbc:mysql://%s:%s/%s?useServerPrepStmts=false&amp;useUnicode=true&amp;"
+                            + "characterEncoding=UTF-8",
+                        host, port, dbName);
                     break;
                 }
             }
@@ -200,9 +200,9 @@ public class CloudFoundryHibernateConfigurator implements HibernateConfigurator,
         }
 
         result.put(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, "connection.driver_class"),
-                "com.mysql.jdbc.Driver");
+            "com.mysql.jdbc.Driver");
         result.put(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, "dialect"),
-                "org.hibernate.dialect.MySQL5InnoDBDialect");
+            "org.hibernate.dialect.MySQL5InnoDBDialect");
         result.put(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, "connection.url"), jdbcString);
         result.put(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, "connection.username"), username);
         result.put(String.format("%s%s", HIBERNATE_PROPERTY_PREFIX, "connection.password"), password);

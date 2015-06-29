@@ -34,7 +34,7 @@ import com.xpn.xwiki.store.AttachmentVersioningStore;
 
 /**
  * The cloud attachment versioning store.
- * 
+ *
  * @version $Id$
  */
 @Component
@@ -52,14 +52,14 @@ public class BlobStoreAttachmentVersioningStore implements AttachmentVersioningS
     public void deleteArchive(XWikiAttachment xwikiAttachment, XWikiContext xwikiContext, boolean transaction)
         throws XWikiException
     {
-        logger.debug("deleteArchive()");
+        this.logger.debug("deleteArchive()");
     }
 
     @Override
     public XWikiAttachmentArchive loadArchive(XWikiAttachment xwikiAttachment, XWikiContext xwikiContext,
         boolean transaction) throws XWikiException
     {
-        logger.debug("loadArchive()");
+        this.logger.debug("loadArchive()");
 
         return null;
     }
@@ -68,7 +68,7 @@ public class BlobStoreAttachmentVersioningStore implements AttachmentVersioningS
     public void saveArchive(XWikiAttachmentArchive xwikiAttachment, XWikiContext xwikiContext, boolean transaction)
         throws XWikiException
     {
-        logger.debug("saveArchive()");
+        this.logger.debug("saveArchive()");
     }
 
 }

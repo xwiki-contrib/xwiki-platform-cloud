@@ -43,7 +43,7 @@ import com.xpn.xwiki.store.XWikiAttachmentStoreInterface;
 
 /**
  * The cloud attachment store.
- * 
+ *
  * @version $Id$
  */
 @Component
@@ -67,28 +67,29 @@ public class BlobStoreAttachmentStore implements XWikiAttachmentStoreInterface
     @Override
     public void cleanUp(XWikiContext xwikiContext)
     {
-        logger.debug("cleanUp()");
+        this.logger.debug("cleanUp()");
     }
 
     @Override
     public void deleteXWikiAttachment(XWikiAttachment xwikiAttachment, boolean updateDocument,
         XWikiContext xwikiContext, boolean bTransaction) throws XWikiException
     {
-        logger.debug("deleteXWikiAttachment()");
+        this.logger.debug("deleteXWikiAttachment()");
 
         XWikiHibernateTransaction transaction = new XWikiHibernateTransaction(xwikiContext);
 
         DeleteAttachmentTransactionRunnable transactionRunnable =
-            new DeleteAttachmentTransactionRunnable(blobStoreProvider, xwikiAttachment, xwikiContext, updateDocument);
+            new DeleteAttachmentTransactionRunnable(this.blobStoreProvider, xwikiAttachment, xwikiContext,
+                updateDocument);
         transactionRunnable.runIn(transaction);
 
         try {
             transaction.start();
         } catch (Exception e) {
-            logger.error("Exception caught in deleteXWikiAttachment(), rethrowing.", e);
+            this.logger.error("Exception caught in deleteXWikiAttachment(), rethrowing.", e);
 
             if (e instanceof XWikiException) {
-                logger.error("Caused by: ", e.getCause());
+                this.logger.error("Caused by: ", e.getCause());
                 throw (XWikiException) e;
             }
 
@@ -110,9 +111,9 @@ public class BlobStoreAttachmentStore implements XWikiAttachmentStoreInterface
     public void loadAttachmentContent(XWikiAttachment xwikiAttachment, XWikiContext xwikiContext, boolean bTransaction)
         throws XWikiException
     {
-        logger.debug("loadAttachmentContent()");
+        this.logger.debug("loadAttachmentContent()");
 
-        BlobStore blobStore = blobStoreProvider.get();
+        BlobStore blobStore = this.blobStoreProvider.get();
 
         String path = Utils.generatePath(xwikiAttachment.getReference());
 
@@ -121,7 +122,7 @@ public class BlobStoreAttachmentStore implements XWikiAttachmentStoreInterface
         try {
             xwikiAttachment.setContent(blobData);
         } catch (IOException e) {
-            logger.error("Exception caught in loadAttachmentContent(), rethrowing.", e);
+            this.logger.error("Exception caught in loadAttachmentContent(), rethrowing.", e);
 
             throw new XWikiException(XWikiException.MODULE_XWIKI_STORE, XWikiException.ERROR_XWIKI_STORE_FILENOTFOUND,
                 String.format("Blob %s not found", xwikiAttachment.getReference().getName()), e);
@@ -133,18 +134,19 @@ public class BlobStoreAttachmentStore implements XWikiAttachmentStoreInterface
     public void saveAttachmentContent(XWikiAttachment xwikiAttachment, boolean updateDocument,
         XWikiContext xwikiContext, boolean bTransaction) throws XWikiException
     {
-        logger.debug("saveAttachmentContent()");
+        this.logger.debug("saveAttachmentContent()");
 
         XWikiHibernateTransaction transaction = new XWikiHibernateTransaction(xwikiContext);
 
         SaveAttachmentTransactionRunnable transactionRunnable =
-            new SaveAttachmentTransactionRunnable(blobStoreProvider, xwikiAttachment, xwikiContext, updateDocument);
+            new SaveAttachmentTransactionRunnable(this.blobStoreProvider, xwikiAttachment, xwikiContext,
+                updateDocument);
         transactionRunnable.runIn(transaction);
 
         try {
             transaction.start();
         } catch (Exception e) {
-            logger.error("Exception caught in saveAttachmentContent(), rethrowing.", e);
+            this.logger.error("Exception caught in saveAttachmentContent(), rethrowing.", e);
 
             if (e instanceof XWikiException) {
                 throw (XWikiException) e;
@@ -167,7 +169,7 @@ public class BlobStoreAttachmentStore implements XWikiAttachmentStoreInterface
     public void saveAttachmentsContent(List<XWikiAttachment> attachmentList, XWikiDocument xwikiDocument,
         boolean updateDocument, XWikiContext xwikiContext, boolean bTransaction) throws XWikiException
     {
-        logger.debug("saveAttachmentsContent()");
+        this.logger.debug("saveAttachmentsContent()");
     }
 
 }

@@ -33,7 +33,7 @@ import org.xwiki.configuration.ConfigurationSource;
 
 /**
  * Default blob store provider.
- * 
+ *
  * @version $Id$
  */
 @Named("blobstore")
@@ -66,7 +66,7 @@ public class DefaultBlobStoreProvider implements Provider<BlobStore>, Initializa
     @Override
     public void initialize() throws InitializationException
     {
-        String blobStoreHint = configurationSource.getProperty(BlobStore.BLOBSTORE_PROPERTY);
+        String blobStoreHint = this.configurationSource.getProperty(BlobStore.BLOBSTORE_PROPERTY);
         if (blobStoreHint == null) {
             throw new InitializationException(String.format(
                 "You must specify the '%s' in your xwiki.properties file for selecting a blob store.",
@@ -74,21 +74,21 @@ public class DefaultBlobStoreProvider implements Provider<BlobStore>, Initializa
         }
 
         try {
-            blobStore = componentManager.getInstance(BlobStore.class, blobStoreHint);
+            this.blobStore = this.componentManager.getInstance(BlobStore.class, blobStoreHint);
         } catch (ComponentLookupException e) {
             String errorMessage = String.format("Unable to lookup a blob store '%s'", blobStoreHint);
 
-            logger.error(errorMessage);
+            this.logger.error(errorMessage);
 
             throw new InitializationException(errorMessage, e);
         }
 
-        logger.debug("Blob store provider initialized with blob store '{}'", blobStoreHint);
+        this.logger.debug("Blob store provider initialized with blob store '{}'", blobStoreHint);
     }
 
     @Override
     public BlobStore get()
     {
-        return blobStore;
+        return this.blobStore;
     }
 }

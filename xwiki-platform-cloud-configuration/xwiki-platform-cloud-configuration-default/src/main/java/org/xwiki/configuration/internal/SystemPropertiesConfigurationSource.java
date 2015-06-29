@@ -31,7 +31,7 @@ import org.xwiki.component.phase.InitializationException;
 
 /**
  * A configuration source that takes properties from the JVM.
- * 
+ *
  * @version $Id$
  */
 @Component

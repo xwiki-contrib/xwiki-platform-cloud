@@ -26,7 +26,7 @@ import org.xwiki.model.reference.EntityReference;
 
 /**
  * Utility methods.
- * 
+ *
  * @version $Id$
  */
 public final class Utils
@@ -41,7 +41,7 @@ public final class Utils
 
     /**
      * Generate a blob path from an entity reference.
-     * 
+     *
      * @param entityReference The entity reference.
      * @return The corresponding path.
      */

@@ -32,7 +32,7 @@ import com.xpn.xwiki.doc.XWikiAttachmentContent;
 
 /**
  * The transaction runnable for deleting attachment metadata.
- * 
+ *
  * @version $Id$
  */
 public class DeleteAttachmentMetaDataTransactionRunnable extends TransactionRunnable<XWikiHibernateTransaction>
@@ -59,7 +59,7 @@ public class DeleteAttachmentMetaDataTransactionRunnable extends TransactionRunn
 
     /**
      * Constructor.
-     * 
+     *
      * @param xwikiAttachment The XWiki attachment.
      * @param xwikiContext The XWiki context.
      * @param updateDoc see {@link #updateDoc}
@@ -75,14 +75,14 @@ public class DeleteAttachmentMetaDataTransactionRunnable extends TransactionRunn
     @Override
     protected void onRun() throws Exception
     {
-        logger.debug("Deleting attachment metadata");
+        this.logger.debug("Deleting attachment metadata");
 
-        final Session session = xwikiContext.getWiki().getHibernateStore().getSession(xwikiContext);
-        session.delete(new XWikiAttachmentContent(xwikiAttachment));
+        final Session session = this.xwikiContext.getWiki().getHibernateStore().getSession(this.xwikiContext);
+        session.delete(new XWikiAttachmentContent(this.xwikiAttachment));
 
-        final String fileName = xwikiAttachment.getFilename();
+        final String fileName = this.xwikiAttachment.getFilename();
 
-        final List<XWikiAttachment> xwikiAttachments = xwikiAttachment.getDoc().getAttachmentList();
+        final List<XWikiAttachment> xwikiAttachments = this.xwikiAttachment.getDoc().getAttachmentList();
         for (XWikiAttachment a : xwikiAttachments) {
             if (fileName.equals(a.getFilename())) {
                 xwikiAttachments.remove(a);
@@ -90,22 +90,25 @@ public class DeleteAttachmentMetaDataTransactionRunnable extends TransactionRunn
             }
         }
 
-        if (updateDoc) {
-            xwikiContext.getWiki().getStore().saveXWikiDoc(xwikiAttachment.getDoc(), xwikiContext, false);
+        if (this.updateDoc) {
+            this.xwikiContext.getWiki().getStore().saveXWikiDoc(this.xwikiAttachment.getDoc(), this.xwikiContext,
+                false);
         }
 
-        session.delete(xwikiAttachment);
+        session.delete(this.xwikiAttachment);
     }
 
     @Override
-    protected void onRollback() throws Exception {
-        logger.warn("Rollback occurred while deleting an attachment metadata, "
+    protected void onRollback() throws Exception
+    {
+        this.logger.warn("Rollback occurred while deleting an attachment metadata, "
             + "the file store may be inconsistent with the database");
     }
 
     @Override
-    protected void onCommit() throws Exception {
-        logger.debug("Commit occurred while deleting attachment metadata");
+    protected void onCommit() throws Exception
+    {
+        this.logger.debug("Commit occurred while deleting attachment metadata");
     }
 
 }

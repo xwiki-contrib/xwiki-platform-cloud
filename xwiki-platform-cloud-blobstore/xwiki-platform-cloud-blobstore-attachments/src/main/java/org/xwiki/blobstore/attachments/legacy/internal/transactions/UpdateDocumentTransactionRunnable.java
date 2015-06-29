@@ -28,7 +28,7 @@ import com.xpn.xwiki.doc.XWikiDocument;
 
 /**
  * A transaction runnable for saving a document.
- * 
+ *
  * @version $Id$
  */
 public class UpdateDocumentTransactionRunnable extends TransactionRunnable<XWikiHibernateTransaction>
@@ -50,7 +50,7 @@ public class UpdateDocumentTransactionRunnable extends TransactionRunnable<XWiki
 
     /**
      * Constructor.
-     * 
+     *
      * @param document The document to be updated.
      * @param xwikiContext The XWiki context.
      */
@@ -65,7 +65,6 @@ public class UpdateDocumentTransactionRunnable extends TransactionRunnable<XWiki
     {
         this.logger.debug("Updating document '{}'", this.document.getDocumentReference());
 
-        xwikiContext.getWiki().getStore().saveXWikiDoc(document, xwikiContext);
+        this.xwikiContext.getWiki().getStore().saveXWikiDoc(this.document, this.xwikiContext);
     }
-
 }

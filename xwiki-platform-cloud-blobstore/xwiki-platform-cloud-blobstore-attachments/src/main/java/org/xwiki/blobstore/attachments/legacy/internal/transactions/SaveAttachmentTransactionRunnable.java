@@ -30,7 +30,7 @@ import com.xpn.xwiki.doc.XWikiAttachment;
 
 /**
  * The transaction runnable for saving an attachment.
- * 
+ *
  * @version $Id$
  */
 public class SaveAttachmentTransactionRunnable extends TransactionRunnable<XWikiHibernateTransaction>
@@ -52,7 +52,7 @@ public class SaveAttachmentTransactionRunnable extends TransactionRunnable<XWiki
 
     /**
      * Constructor.
-     * 
+     *
      * @param blobStoreProvider The blob store provider.
      * @param xwikiAttachment The XWiki attachment.
      * @param xwikiContext The XWiki context.
@@ -73,11 +73,12 @@ public class SaveAttachmentTransactionRunnable extends TransactionRunnable<XWiki
     @Override
     protected void onRun() throws Exception
     {
-        BlobStore blobStore = blobStoreProvider.get();
+        BlobStore blobStore = this.blobStoreProvider.get();
 
-        String path = Utils.generatePath(xwikiAttachment.getReference());
+        String path = Utils.generatePath(this.xwikiAttachment.getReference());
 
-        blobStore.putBlob(path, xwikiAttachment.getContentInputStream(xwikiContext), xwikiAttachment.getFilesize());
+        blobStore.putBlob(path, this.xwikiAttachment.getContentInputStream(this.xwikiContext),
+            this.xwikiAttachment.getFilesize());
     }
 
 }
