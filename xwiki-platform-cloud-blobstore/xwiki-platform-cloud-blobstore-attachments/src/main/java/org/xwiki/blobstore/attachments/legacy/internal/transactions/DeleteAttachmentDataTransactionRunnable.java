@@ -77,7 +77,8 @@ public class DeleteAttachmentDataTransactionRunnable extends TransactionRunnable
 
     @Override
     protected void onRollback() throws Exception {
-        logger.warn("Rollback occurred while deleting an attachment, the file store may be inconsistent with the database");
+        logger.warn("Rollback occurred while deleting an attachment, "
+            + "the file store may be inconsistent with the database");
     }
 
     @Override

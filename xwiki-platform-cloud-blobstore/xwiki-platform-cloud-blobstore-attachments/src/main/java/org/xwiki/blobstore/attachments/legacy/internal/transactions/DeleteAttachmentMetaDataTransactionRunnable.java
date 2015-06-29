@@ -62,8 +62,10 @@ public class DeleteAttachmentMetaDataTransactionRunnable extends TransactionRunn
      * 
      * @param xwikiAttachment The XWiki attachment.
      * @param xwikiContext The XWiki context.
+     * @param updateDoc see {@link #updateDoc}
      */
-    public DeleteAttachmentMetaDataTransactionRunnable(XWikiAttachment xwikiAttachment, XWikiContext xwikiContext, boolean updateDoc)
+    public DeleteAttachmentMetaDataTransactionRunnable(XWikiAttachment xwikiAttachment, XWikiContext xwikiContext,
+        boolean updateDoc)
     {
         this.xwikiAttachment = xwikiAttachment;
         this.xwikiContext = xwikiContext;
