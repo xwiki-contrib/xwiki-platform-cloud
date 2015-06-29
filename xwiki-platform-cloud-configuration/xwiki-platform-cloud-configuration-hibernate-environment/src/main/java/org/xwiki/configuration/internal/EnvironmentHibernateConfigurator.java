@@ -23,6 +23,7 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -44,6 +45,7 @@ import org.xwiki.environment.Environment;
  */
 @Component
 @Named("hibernate-environment")
+@Singleton
 public class EnvironmentHibernateConfigurator implements HibernateConfigurator, Initializable
 {
     /**

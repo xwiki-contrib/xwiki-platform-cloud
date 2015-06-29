@@ -22,6 +22,7 @@ package org.xwiki.configuration.internal;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
+import javax.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.xwiki.component.annotation.Component;
@@ -38,6 +39,7 @@ import org.xwiki.configuration.HibernateConfigurator;
  * @version $Id$
  */
 @Component
+@Singleton
 public class DefaultHibernateConfiguratorProvider implements Provider<HibernateConfigurator>, Initializable
 {
     /**

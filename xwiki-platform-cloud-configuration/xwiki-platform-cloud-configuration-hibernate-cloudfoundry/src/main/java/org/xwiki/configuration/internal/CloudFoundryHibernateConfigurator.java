@@ -25,6 +25,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -49,6 +50,7 @@ import net.sf.json.JSONObject;
  */
 @Component
 @Named("hibernate-cloudfoundry")
+@Singleton
 public class CloudFoundryHibernateConfigurator implements HibernateConfigurator, Initializable
 {
     /**

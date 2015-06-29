@@ -22,6 +22,7 @@ package org.xwiki.configuration.internal;
 import java.util.Properties;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.apache.commons.configuration.BaseConfiguration;
 import org.xwiki.component.annotation.Component;
@@ -35,6 +36,7 @@ import org.xwiki.component.phase.InitializationException;
  */
 @Component
 @Named("system-properties")
+@Singleton
 public class SystemPropertiesConfigurationSource extends CommonsConfigurationSource implements Initializable
 {
     @Override
