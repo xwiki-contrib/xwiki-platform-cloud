@@ -63,7 +63,7 @@ public class UpdateDocumentTransactionRunnable extends TransactionRunnable<XWiki
     @Override
     protected void onRun() throws Exception
     {
-        logger.debug("Updating document '{}'", document.getFullName());
+        this.logger.debug("Updating document '{}'", this.document.getDocumentReference());
 
         xwikiContext.getWiki().getStore().saveXWikiDoc(document, xwikiContext);
     }
