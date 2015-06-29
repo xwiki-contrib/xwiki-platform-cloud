@@ -21,14 +21,14 @@ package org.xwiki.blobstore;
 
 import java.io.InputStream;
 
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * An interface containing relevant operations we want to perform on S3.
  * 
  * @version $Id$
  */
-@ComponentRole
+@Role
 public interface BlobStore
 {
     /**

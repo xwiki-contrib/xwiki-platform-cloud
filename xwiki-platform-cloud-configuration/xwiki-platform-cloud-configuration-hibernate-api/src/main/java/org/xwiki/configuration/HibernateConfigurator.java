@@ -20,14 +20,14 @@
 package org.xwiki.configuration;
 
 import org.w3c.dom.Document;
-import org.xwiki.component.annotation.ComponentRole;
+import org.xwiki.component.annotation.Role;
 
 /**
  * Provide a configuration to be used to initialize Hibernate dynamically.
  * 
  * @version $Id$
  */
-@ComponentRole
+@Role
 public interface HibernateConfigurator
 {
     /**
