@@ -31,7 +31,7 @@
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-cloud</artifactId>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>XWiki Platform - Cloud - Parent POM</name>
 
@@ -83,8 +83,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <scm>
-    <tag>xwiki-platform-cloud-1.0</tag>
-  </scm>
 </project>
