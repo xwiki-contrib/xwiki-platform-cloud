@@ -31,13 +31,7 @@
     <version>7.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-cloud-blobstore-api</artifactId>
-
   <name>XWiki Platform - Cloud - Blob store - API</name>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
-  </properties>
 
   <dependencies>
     <dependency>
@@ -51,5 +45,4 @@
       <version>${commons.version}</version>
     </dependency>
   </dependencies>
-
 </project>

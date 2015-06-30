@@ -31,12 +31,9 @@
     <version>7.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-cloud-configuration-hibernate-cloudfoundry</artifactId>
-
   <name>XWiki Platform - Cloud - Configuration - Hibernate - CloudFoundry</name>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
     <xwiki.checkstyle.skip>true</xwiki.checkstyle.skip>
   </properties>
 

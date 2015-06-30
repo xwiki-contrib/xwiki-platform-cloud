@@ -34,15 +34,10 @@
   <packaging>pom</packaging>
 
   <name>XWiki Platform - Cloud - Blob store - Parent POM</name>
-  
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
   <modules>
     <module>xwiki-platform-cloud-blobstore-api</module>
     <module>xwiki-platform-cloud-blobstore-s3</module>
     <module>xwiki-platform-cloud-blobstore-attachments</module>
   </modules>
-
 </project>

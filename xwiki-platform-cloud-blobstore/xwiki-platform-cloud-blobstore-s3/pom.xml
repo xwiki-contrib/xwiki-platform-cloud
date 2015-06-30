@@ -31,13 +31,7 @@
     <version>7.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-cloud-blobstore-s3</artifactId>
-
   <name>XWiki Platform - Cloud - Blob store - S3</name>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
-  </properties>
 
   <dependencies>
     <dependency>

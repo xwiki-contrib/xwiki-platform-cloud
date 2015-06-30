@@ -32,12 +32,9 @@
   </parent>
   <artifactId>xwiki-platform-cloud-distribution-beanstalk-s3</artifactId>
   <packaging>war</packaging>
-
   <name>XWiki Platform - Cloud - Distribution - Beanstalk + S3</name>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
     <!-- Disable enforcer checks because we declare a dependency on a legacy module -->
     <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
   </properties>
