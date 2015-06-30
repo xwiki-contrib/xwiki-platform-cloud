@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>xwiki-platform-cloud-blobstore</artifactId>
-    <version>7.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-cloud-blobstore-api</artifactId>
   <name>XWiki Platform - Cloud - Blob store - API</name>
