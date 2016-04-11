@@ -83,7 +83,7 @@ public class S3BlobStore implements BlobStore, Initializable
     {
         final String formatString = "%s property is not defined.";
 
-        this.logger.error("Using {}", this.configurationSource.getClass().getName());
+        this.logger.debug("Using {}", this.configurationSource.getClass().getName());
 
         this.bucket = this.configurationSource.getProperty(BlobStore.BLOBSTORE_BUCKET_PROPERTY);
         if (this.bucket == null) {
