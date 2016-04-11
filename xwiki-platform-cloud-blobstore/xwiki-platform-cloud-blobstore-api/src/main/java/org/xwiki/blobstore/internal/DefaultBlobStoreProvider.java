@@ -66,7 +66,7 @@ public class DefaultBlobStoreProvider implements Provider<BlobStore>, Initializa
     @Override
     public void initialize() throws InitializationException
     {
-        String blobStoreHint = this.configurationSource.getProperty(BlobStore.BLOBSTORE_PROPERTY);
+        String blobStoreHint = this.configurationSource.getProperty(BlobStore.BLOBSTORE_PROPERTY, "s3");
         if (blobStoreHint == null) {
             throw new InitializationException(String.format(
                 "You must specify the '%s' in your xwiki.properties file for selecting a blob store.",
