@@ -85,17 +85,17 @@ public class S3BlobStore implements BlobStore, Initializable
 
         this.logger.debug("Using {}", this.configurationSource.getClass().getName());
 
-        this.bucket = this.configurationSource.getProperty(BlobStore.BLOBSTORE_BUCKET_PROPERTY);
+        this.bucket = this.configurationSource.getProperty(BlobStore.BLOBSTORE_BUCKET_PROPERTY, String.class);
         if (this.bucket == null) {
             throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_BUCKET_PROPERTY));
         }
 
-        String accessKey = this.configurationSource.getProperty(BlobStore.BLOBSTORE_IDENTITY_PROPERTY);
+        String accessKey = this.configurationSource.getProperty(BlobStore.BLOBSTORE_IDENTITY_PROPERTY, String.class);
         if (accessKey == null) {
             throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_IDENTITY_PROPERTY));
         }
 
-        String secretKey = this.configurationSource.getProperty(BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY);
+        String secretKey = this.configurationSource.getProperty(BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY, String.class);
         if (secretKey == null) {
             throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY));
         }
@@ -108,7 +108,7 @@ public class S3BlobStore implements BlobStore, Initializable
             this.client.createBucket(this.bucket);
         }
 
-        this.namespace = this.configurationSource.getProperty(BlobStore.BLOBSTORE_NAMESPACE_PROPERTY);
+        this.namespace = this.configurationSource.getProperty(BlobStore.BLOBSTORE_NAMESPACE_PROPERTY, String.class);
 
         this.logger.debug("S3 blob store initialized using namespace '{}' and bucket '{}'",
             this.namespace != null ? this.namespace
