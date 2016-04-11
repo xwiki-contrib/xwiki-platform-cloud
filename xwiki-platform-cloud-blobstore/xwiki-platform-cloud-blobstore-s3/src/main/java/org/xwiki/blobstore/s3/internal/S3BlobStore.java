@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.xwiki.blobstore.BlobStore;
 import org.xwiki.component.annotation.Component;
@@ -75,7 +76,7 @@ public class S3BlobStore implements BlobStore, Initializable
     /**
      * The namespace where to store data.
      */
-    private Object namespace;
+    private String namespace;
 
     @Override
     public void initialize() throws InitializationException
@@ -169,7 +170,7 @@ public class S3BlobStore implements BlobStore, Initializable
      */
     private String normalizePath(String path)
     {
-        if (this.namespace != null) {
+        if (StringUtils.isNotBlank(this.namespace)) {
             return String.format("%s/%s", this.namespace, path);
         }
 
