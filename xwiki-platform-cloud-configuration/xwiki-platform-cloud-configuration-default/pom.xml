@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>xwiki-platform-cloud-configuration</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-cloud-configuration-default</artifactId>
   <name>XWiki Platform - Cloud - Configuration - Default</name>
