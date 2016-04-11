@@ -40,6 +40,13 @@
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>
 
+  <scm>
+    <connection>scm:git:git://github.com/xwiki-contrib/xwiki-platform-cloud.git</connection>
+    <developerConnection>scm:git:git@github.com:xwiki-contrib/xwiki-platform-cloud.git</developerConnection>
+    <url>https://github.com/xwiki-contrib/xwiki-platform-cloud.git/tree/master/</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <modules>
     <module>xwiki-platform-cloud-blobstore</module>
     <module>xwiki-platform-cloud-configuration</module>
