@@ -40,6 +40,20 @@
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>phenotips-externals</id>
+      <name>PhenoTips external repositories mirror</name>
+      <url>https://nexus.phenotips.org/nexus/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <scm>
     <connection>scm:git:git://github.com/xwiki-contrib/xwiki-platform-cloud.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/xwiki-platform-cloud.git</developerConnection>
@@ -82,6 +96,12 @@
         <executions>
           <execution>
             <id>check-dependency-version</id>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-valid-poms</id>
             <configuration>
               <skip>true</skip>
             </configuration>
