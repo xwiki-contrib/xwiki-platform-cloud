@@ -33,8 +33,10 @@ import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.configuration.ConfigurationSource;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 
@@ -58,7 +60,7 @@ public class S3BlobStore implements BlobStore, Initializable
      * The S3 client. No particular mechanisms are used in the code to deal with multiple thread interactions because
      * the Amazon S3 client is thread safe: https://forums.aws.amazon.com/thread.jspa?threadID=50723
      */
-    private AmazonS3Client client;
+    private AmazonS3 client;
 
     /**
      * Configuration.
@@ -100,10 +102,15 @@ public class S3BlobStore implements BlobStore, Initializable
             throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY));
         }
 
+
         BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-        this.client = new AmazonS3Client(credentials);
-        boolean bucketExists = this.client.doesBucketExist(this.bucket);
+        this.client = AmazonS3ClientBuilder
+            .standard()
+            .withCredentials(new AWSStaticCredentialsProvider(credentials))
+            .build();
+
+        boolean bucketExists = this.client.doesBucketExistV2(this.bucket);
         if (!bucketExists) {
             this.client.createBucket(this.bucket);
         }
@@ -111,8 +118,7 @@ public class S3BlobStore implements BlobStore, Initializable
         this.namespace = this.configurationSource.getProperty(BlobStore.BLOBSTORE_NAMESPACE_PROPERTY, String.class);
 
         this.logger.debug("S3 blob store initialized using namespace '{}' and bucket '{}'",
-            this.namespace != null ? this.namespace
-                : "no namespace specified",
+            this.namespace != null ? this.namespace : "no namespace specified",
             this.bucket);
     }
 
