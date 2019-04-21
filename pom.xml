@@ -31,7 +31,7 @@
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-cloud</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2-gene42</version>
   <packaging>pom</packaging>
   <name>XWiki Platform - Cloud - Parent POM</name>
 
@@ -71,7 +71,7 @@
     <connection>scm:git:git://github.com/Gene42/xwiki-platform-cloud.git</connection>
     <developerConnection>scm:git:git@github.com:Gene42/xwiki-platform-cloud.git</developerConnection>
     <url>https://github.com/Gene42/xwiki-platform-cloud.git/tree/master/</url>
-    <tag>HEAD</tag>
+    <tag>xwiki-platform-cloud-1.2-gene42</tag>
   </scm>
 
   <modules>
