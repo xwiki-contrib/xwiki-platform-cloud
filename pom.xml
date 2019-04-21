@@ -68,9 +68,9 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:git://github.com/xwiki-contrib/xwiki-platform-cloud.git</connection>
-    <developerConnection>scm:git:git@github.com:xwiki-contrib/xwiki-platform-cloud.git</developerConnection>
-    <url>https://github.com/xwiki-contrib/xwiki-platform-cloud.git/tree/master/</url>
+    <connection>scm:git:git://github.com/Gene42/xwiki-platform-cloud.git</connection>
+    <developerConnection>scm:git:git@github.com:Gene42/xwiki-platform-cloud.git</developerConnection>
+    <url>https://github.com/Gene42/xwiki-platform-cloud.git/tree/master/</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -82,6 +82,16 @@
   </modules>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <pushChanges>false</pushChanges>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <!-- Apply the Checkstyle configurations defined in the top level pom.xml file -->
