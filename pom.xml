@@ -54,6 +54,19 @@
     </repository>
   </repositories>
 
+  <distributionManagement>
+    <repository>
+      <id>gene42-nexus</id>
+      <name>Maven2 Remote Repository for Releases</name>
+      <url>https://nexus.gene42.com/repository/gene42-public-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>gene42-nexus</id>
+      <name>Maven2 Development Repository for Snapshots</name>
+      <url>https://nexus.gene42.com/repository/gene42-public-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <scm>
     <connection>scm:git:git://github.com/xwiki-contrib/xwiki-platform-cloud.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/xwiki-platform-cloud.git</developerConnection>
