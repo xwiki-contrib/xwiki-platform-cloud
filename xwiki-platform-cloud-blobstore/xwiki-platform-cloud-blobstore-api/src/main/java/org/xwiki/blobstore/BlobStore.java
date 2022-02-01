@@ -32,6 +32,12 @@ import org.xwiki.component.annotation.Role;
 public interface BlobStore
 {
     /**
+     * The region the bucket is located in. This is useful to set in instances where this region cannot be automatically
+     * detected. Like during local testing.
+     */
+    String BLOBSTORE_REGION_PROPERTY = "xwiki.store.attachments.blobstore.region";
+
+    /**
      * The bucket to be used for storing XWiki attachment data.
      */
     String BLOBSTORE_BUCKET_PROPERTY = "xwiki.store.attachments.blobstore.bucket";
