@@ -35,6 +35,7 @@ import org.xwiki.configuration.ConfigurationSource;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -55,6 +56,11 @@ public class S3BlobStore implements BlobStore, Initializable
      * The bucket to be used for storing data.
      */
     private String bucket;
+
+    /**
+     * The optional region for the bucket.
+     */
+    private Regions region;
 
     /**
      * The S3 client. No particular mechanisms are used in the code to deal with multiple thread interactions because
@@ -83,32 +89,38 @@ public class S3BlobStore implements BlobStore, Initializable
     @Override
     public void initialize() throws InitializationException
     {
-        final String formatString = "%s property is not defined.";
+        final String undefinedPropStr = "%s property is not defined.";
 
         this.logger.debug("Using {}", this.configurationSource.getClass().getName());
 
         this.bucket = this.configurationSource.getProperty(BlobStore.BLOBSTORE_BUCKET_PROPERTY, String.class);
         if (this.bucket == null) {
-            throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_BUCKET_PROPERTY));
+            throw new InitializationException(String.format(undefinedPropStr, BlobStore.BLOBSTORE_BUCKET_PROPERTY));
         }
+
+        specifyRegionIfNecessary();
 
         String accessKey = this.configurationSource.getProperty(BlobStore.BLOBSTORE_IDENTITY_PROPERTY, String.class);
         if (accessKey == null) {
-            throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_IDENTITY_PROPERTY));
+            throw new InitializationException(String.format(undefinedPropStr, BlobStore.BLOBSTORE_IDENTITY_PROPERTY));
         }
 
         String secretKey = this.configurationSource.getProperty(BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY, String.class);
         if (secretKey == null) {
-            throw new InitializationException(String.format(formatString, BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY));
+            throw new InitializationException(String.format(undefinedPropStr, BlobStore.BLOBSTORE_CREDENTIAL_PROPERTY));
         }
-
 
         BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
 
-        this.client = AmazonS3ClientBuilder
+        final AmazonS3ClientBuilder clientBuilder = AmazonS3ClientBuilder
             .standard()
-            .withCredentials(new AWSStaticCredentialsProvider(credentials))
-            .build();
+            .withCredentials(new AWSStaticCredentialsProvider(credentials));
+
+        if (this.region != null) {
+            clientBuilder.withRegion(this.region);
+        }
+
+        this.client = clientBuilder.build();
 
         boolean bucketExists = this.client.doesBucketExistV2(this.bucket);
         if (!bucketExists) {
@@ -120,6 +132,25 @@ public class S3BlobStore implements BlobStore, Initializable
         this.logger.debug("S3 blob store initialized using namespace '{}' and bucket '{}'",
             this.namespace != null ? this.namespace : "no namespace specified",
             this.bucket);
+    }
+
+    /**
+     * Try to retrieve the region if explicitly specified.
+     *
+     * @throws InitializationException iff the specified region is not valid
+     */
+    private void specifyRegionIfNecessary() throws InitializationException {
+        final String invalidRegStr = "The region %s specified by %s is invalid: %s";
+        final String regStr = this.configurationSource.getProperty(BlobStore.BLOBSTORE_REGION_PROPERTY, String.class);
+        if (StringUtils.isNotBlank(regStr)) {
+            try {
+                this.region = Regions.fromName(regStr);
+            } catch (Exception ex) {
+                throw new InitializationException(
+                    String.format(invalidRegStr, regStr, BlobStore.BLOBSTORE_REGION_PROPERTY, ex.getMessage())
+                );
+            }
+        }
     }
 
     @Override
