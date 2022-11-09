@@ -118,8 +118,9 @@
 
       <!-- The xwiki-platform main pom is misconfigured, and enforces using ${project.version} for all dependencies from org.xwiki.platform -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>1.4.1</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>check-dependency-version</id>
@@ -131,6 +132,20 @@
             <id>enforce-valid-poms</id>
             <configuration>
               <skip>true</skip>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enforce-java</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <skip>true</skip>
+              <rules>
+                <requireJavaVersion>
+                  <version>(1.8.0,)</version>
+                </requireJavaVersion>
+              </rules>
             </configuration>
           </execution>
         </executions>
