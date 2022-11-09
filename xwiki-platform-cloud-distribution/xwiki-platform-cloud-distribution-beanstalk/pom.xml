@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>xwiki-platform-cloud-distribution</artifactId>
-    <version>1.3-gene42</version>
+    <version>1.4-gene42-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-cloud-distribution-beanstalk</artifactId>
   <packaging>war</packaging>
