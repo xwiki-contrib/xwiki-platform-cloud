@@ -28,6 +28,7 @@
     <groupId>org.xwiki.platform</groupId>
     <artifactId>xwiki-platform-core</artifactId>
     <version>7.4.6-struts2-1</version>
+    <relativePath />
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-cloud</artifactId>
@@ -52,7 +53,47 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+       <repository>
+      <id>gene42-nexus-private</id>
+      <name>Gene42 PhenoTips Private repository</name>
+      <url>https://nexus.gene42.com/repository/gene42-private-group/</url>
+      <releases>
+        <enabled>true</enabled>
+        <checksumPolicy>fail</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>gene42-nexus-public</id>
+      <name>Gene42 PhenoTips Public repository</name>
+      <url>https://nexus.gene42.com/repository/gene42-public-group/</url>
+      <releases>
+        <enabled>true</enabled>
+        <checksumPolicy>fail</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+    </repository>
   </repositories>
+  <pluginRepositories>
+  <pluginRepository>
+      <id>phenotips-externals</id>
+      <name>PhenoTips external repositories mirror</name>
+      <url>https://nexus.phenotips.org/nexus/content/groups/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+
+  </pluginRepositories>
 
   <distributionManagement>
     <repository>
