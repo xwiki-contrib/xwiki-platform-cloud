@@ -19,9 +19,9 @@
  */
 package org.xwiki.blobstore;
 
-import java.io.InputStream;
-
 import org.xwiki.component.annotation.Role;
+
+import java.io.InputStream;
 
 /**
  * An interface containing relevant operations we want to perform on S3.
@@ -61,6 +61,21 @@ public interface BlobStore
      * The namespace to use for storing data in the blobstore.
      */
     String BLOBSTORE_NAMESPACE_PROPERTY = "xwiki.store.attachments.blobstore.namespace";
+
+    /**
+     * The container name for Azure blob storage.
+     */
+    String BLOBSTORE_CONTAINER_PROPERTY = "xwiki.store.attachments.blobstore.container";
+
+    /**
+     * The account name for Azure blob storage.
+     */
+    String BLOBSTORE_STORAGE_ACCOUNT_NAME_PROPERTY = "xwiki.store.attachments.blobstore.storageAccountName";
+
+    /**
+     * The shared access signature (SAS) token to use for authentication for Azure blob storage service.
+     */
+    String BLOBSTORE_SAS_TOKEN_PROPERTY = "xwiki.store.attachments.blobstore.sasToken";
 
     /**
      * Store a blob.

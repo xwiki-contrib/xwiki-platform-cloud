@@ -38,5 +38,6 @@
     <module>xwiki-platform-cloud-blobstore-api</module>
     <module>xwiki-platform-cloud-blobstore-s3</module>
     <module>xwiki-platform-cloud-blobstore-attachments</module>
+    <module>xwiki-platform-cloud-blobstore-azure</module>
   </modules>
 </project>
