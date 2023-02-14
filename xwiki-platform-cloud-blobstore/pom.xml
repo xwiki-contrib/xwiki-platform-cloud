@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>xwiki-platform-cloud</artifactId>
-    <version>1.4-gene42-SNAPSHOT</version>
+    <version>1.5-gene42-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-cloud-blobstore</artifactId>
   <packaging>pom</packaging>
@@ -38,5 +38,6 @@
     <module>xwiki-platform-cloud-blobstore-api</module>
     <module>xwiki-platform-cloud-blobstore-s3</module>
     <module>xwiki-platform-cloud-blobstore-attachments</module>
+    <module>xwiki-platform-cloud-blobstore-azure</module>
   </modules>
 </project>
