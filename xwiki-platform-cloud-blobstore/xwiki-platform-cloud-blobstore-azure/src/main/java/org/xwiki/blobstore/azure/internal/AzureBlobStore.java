@@ -19,21 +19,23 @@
  */
 package org.xwiki.blobstore.azure.internal;
 
-import com.azure.storage.blob.BlobContainerClient;
-import com.azure.storage.blob.BlobServiceClient;
-import com.azure.storage.blob.BlobServiceClientBuilder;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 import org.xwiki.blobstore.BlobStore;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.component.phase.InitializationException;
 import org.xwiki.configuration.ConfigurationSource;
-
+import java.io.InputStream;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.io.InputStream;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobErrorCode;
+import com.azure.storage.blob.models.BlobStorageException;
 
 /**
  * Amazon Azure blob store implementation. This is a singleton in order to reuse as much as possible the Azure client
@@ -138,7 +140,18 @@ public class AzureBlobStore implements BlobStore, Initializable
         this.logger.debug("Deleting blob '{}' from container '{}'", normalizedPath,
                 this.containerClient.getBlobContainerName());
 
-        this.containerClient.getBlobClient(normalizedPath).delete();
+        try {
+            BlobClient blobClient = this.containerClient.getBlobClient(normalizedPath);
+            if (Boolean.TRUE.equals(blobClient.exists())) {
+                blobClient.delete();
+            }
+        } catch (BlobStorageException e) {
+            // If we are trying to delete a blob that does not exist, we don't really care, throw exception for
+            //  everything but
+            if (!BlobErrorCode.BLOB_NOT_FOUND.equals(e.getErrorCode())) {
+                throw e;
+            }
+        }
     }
 
     @Override
