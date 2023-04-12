@@ -85,7 +85,7 @@ public class DeleteAttachmentDataTransactionRunnable extends TransactionRunnable
     @Override
     protected void onCommit() throws Exception
     {
-        this.logger.info("Commit occurred while deleting an attachment");
+        this.logger.debug("Commit occurred while deleting an attachment");
     }
 
 }
